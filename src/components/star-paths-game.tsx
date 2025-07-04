@@ -272,7 +272,7 @@ export function StarPathsGame() {
                                                 isVisited ? 'text-green-400' : 'text-red-500'
                                             )}>{square.square}</span>
                                             {isBooster && <Rocket className="w-4 h-4 text-green-400" />}
-                                            {isBlackHole && <BlackHoleIcon className="w-4 h-4 text-black animate-pulse-black-hole" />}
+                                            {isBlackHole && <BlackHoleIcon className="w-4 h-4 animate-pulse-black-hole" />}
                                         </div>
                                         <p className="text-[8px] md:text-xs font-bold text-foreground/80 leading-tight line-clamp-2">{square.name}</p>
                                     </motion.button>

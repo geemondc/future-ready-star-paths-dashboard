@@ -60,7 +60,7 @@ export function AnimatedBackground() {
 
         <div className={`absolute inset-0 transition-opacity duration-1000 ${theme === 'light' ? 'opacity-100' : 'opacity-0'}`}>
             <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-sky-400" />
-            {[...Array(6)].map((_, i) => <Cloud key={i} id={i} />)}
+            {[...Array(7)].map((_, i) => <Cloud key={i} id={i} />)}
         </div>
     </div>
   );
