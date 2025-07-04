@@ -25,35 +25,6 @@ const Cloud = ({ id }: { id: number }) => {
     );
 };
 
-const Bird = ({ id }: { id: number }) => {
-    const style = {
-        top: `${Math.random() * 60 + 10}%`,
-        left: '-50px',
-        animation: `float ${Math.random() * 10 + 10}s linear infinite`,
-        animationDelay: `${id * 2}s`,
-        transform: `scale(${Math.random() * 0.2 + 0.3})`,
-    };
-    return (
-        <svg
-            viewBox="0 0 50 30"
-            className="absolute text-slate-800"
-            style={style}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        >
-            <path d="M2 15c5,6,12,8,23,0">
-              <animate attributeName="d" values="M2 15c5,6,12,8,23,0;M2 15c5,-6,12,-8,23,0;M2 15c5,6,12,8,23,0" dur="0.5s" repeatCount="indefinite" />
-            </path>
-            <path d="M25 15c5,6,12,8,23,0">
-               <animate attributeName="d" values="M25 15c5,6,12,8,23,0;M25 15c5,-6,12,-8,23,0;M25 15c5,6,12,8,23,0" dur="0.5s" repeatCount="indefinite" />
-            </path>
-        </svg>
-    );
-};
-
 export function AnimatedBackground() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
@@ -90,7 +61,6 @@ export function AnimatedBackground() {
         <div className={`absolute inset-0 transition-opacity duration-1000 ${theme === 'light' ? 'opacity-100' : 'opacity-0'}`}>
             <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-sky-400" />
             {[...Array(6)].map((_, i) => <Cloud key={i} id={i} />)}
-            {[...Array(5)].map((_, i) => <Bird key={i} id={i} />)}
         </div>
     </div>
   );
