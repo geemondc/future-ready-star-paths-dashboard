@@ -83,8 +83,15 @@ export function StarPathsGame() {
     const roll = Math.floor(Math.random() * 6) + 1;
     setLastRoll(roll);
 
+    let newPosition = position + roll;
+    if (newPosition > BOARD_SIZE) {
+        newPosition = (newPosition - 1) % BOARD_SIZE + 1;
+    }
+
     const path: number[] = [];
     let currentTempPos = position;
+    
+    // Create a path for animation
     for (let i = 0; i < roll; i++) {
         currentTempPos++;
         if (currentTempPos > BOARD_SIZE) {
@@ -265,7 +272,7 @@ export function StarPathsGame() {
                                                 isVisited ? 'text-green-400' : 'text-red-500'
                                             )}>{square.square}</span>
                                             {isBooster && <Rocket className="w-4 h-4 text-green-400" />}
-                                            {isBlackHole && <BlackHoleIcon className="w-4 h-4 text-red-400" />}
+                                            {isBlackHole && <BlackHoleIcon className="w-4 h-4 text-black dark:text-gray-300" />}
                                         </div>
                                         <p className="text-[8px] md:text-xs font-bold text-foreground/80 leading-tight line-clamp-2">{square.name}</p>
                                     </motion.button>
@@ -276,7 +283,7 @@ export function StarPathsGame() {
                                             <h4 className="font-headline font-bold leading-none text-glow">{square.name}</h4>
                                             <p className="text-sm text-primary/80">{square.description}</p>
                                             {isBooster && <p className="text-sm text-green-400 font-bold">🚀 Booster to {boosters[square.square]}!</p>}
-                                            {isBlackHole && <p className="text-sm text-red-400 font-bold">⚫ Black Hole to {blackHoles[square.square]}!</p>}
+                                            {isBlackHole && <p className="text-sm font-bold text-black dark:text-gray-300">⚫ Black Hole to {blackHoles[square.square]}!</p>}
                                         </div>
                                         <div className="py-2 text-center">
                                             <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
