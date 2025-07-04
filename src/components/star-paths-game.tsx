@@ -311,7 +311,7 @@ export function StarPathsGame() {
         </footer>
       </div>
       <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
-        <SheetContent className="bg-background/50 backdrop-blur-lg border-primary/20 text-foreground">
+        <SheetContent className="w-1/2 sm:max-w-xs bg-background/50 backdrop-blur-lg border-primary/20 text-foreground">
             {selectedSquare && (
                 <>
                 <SheetHeader>
