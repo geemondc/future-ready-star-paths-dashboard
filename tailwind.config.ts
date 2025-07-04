@@ -105,6 +105,10 @@ export default {
             '90%': { opacity: '1' },
             '100%': { transform: 'translateX(-50vw) translateY(50vh) rotate(-45deg)', opacity: '0' },
         },
+        'pulse-black-hole': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.2)', opacity: '0.75' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -114,6 +118,7 @@ export default {
         'float': 'float 40s infinite linear',
         'pulse': 'pulse 5s infinite ease-in-out',
         'comet': 'comet 15s infinite linear',
+        'pulse-black-hole': 'pulse-black-hole 1.5s infinite ease-in-out',
       },
       textShadow: {
         glow: '0 0 8px hsl(var(--primary) / 0.8), 0 0 20px hsl(var(--accent) / 0.6)',
