@@ -13,7 +13,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import Confetti from 'react-confetti';
-import { useTheme } from 'next-themes';
 import { ThemeToggle } from './theme-toggle';
 
 export function StarPathsGame() {
@@ -256,8 +255,6 @@ export function StarPathsGame() {
                                             "relative w-full aspect-square rounded-lg p-2 flex flex-col justify-between items-center text-left transition-all duration-300 transform hover:scale-105 hover:z-10 focus:z-10",
                                             isVisited ? 'bg-green-500/20 border-green-500/50' : 'bg-red-600/20 border-red-600/50',
                                             isCurrent && 'ring-4 ring-solar-gold shadow-2xl scale-105 z-10',
-                                            isBooster && 'border-green-400',
-                                            isBlackHole && 'border-red-400',
                                             "border-2"
                                         )}
                                         whileHover={{y: -5}}
