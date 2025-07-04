@@ -106,8 +106,14 @@ export default {
             '100%': { transform: 'translateX(-50vw) translateY(50vh) rotate(-45deg)', opacity: '0' },
         },
         'pulse-black-hole': {
-          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.2)', opacity: '0.75' },
+          '0%, 100%': {
+            color: 'black',
+            transform: 'scale(1)',
+          },
+          '50%': {
+            color: '#FFCF56',
+            transform: 'scale(1.2)',
+          },
         },
       },
       animation: {
@@ -118,7 +124,7 @@ export default {
         'float': 'float 40s infinite linear',
         'pulse': 'pulse 5s infinite ease-in-out',
         'comet': 'comet 15s infinite linear',
-        'pulse-black-hole': 'pulse-black-hole 1.5s infinite ease-in-out',
+        'pulse-black-hole': 'pulse-black-hole 1s infinite',
       },
       textShadow: {
         glow: '0 0 8px hsl(var(--primary) / 0.8), 0 0 20px hsl(var(--accent) / 0.6)',
