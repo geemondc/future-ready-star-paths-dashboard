@@ -44,8 +44,12 @@ const Bird = ({ id }: { id: number }) => {
             strokeLinecap="round"
             strokeLinejoin="round"
         >
-            <path d="M2 15c5,6,12,8,23,0" />
-            <path d="M25 15c5,6,12,8,23,0" />
+            <path d="M2 15c5,6,12,8,23,0">
+              <animate attributeName="d" values="M2 15c5,6,12,8,23,0;M2 15c5,-6,12,-8,23,0;M2 15c5,6,12,8,23,0" dur="0.5s" repeatCount="indefinite" />
+            </path>
+            <path d="M25 15c5,6,12,8,23,0">
+               <animate attributeName="d" values="M25 15c5,6,12,8,23,0;M25 15c5,-6,12,-8,23,0;M25 15c5,6,12,8,23,0" dur="0.5s" repeatCount="indefinite" />
+            </path>
         </svg>
     );
 };
@@ -77,16 +81,14 @@ export function AnimatedBackground() {
   return (
     <div className="fixed inset-0 w-full h-full z-0 overflow-hidden">
         <div className={`absolute inset-0 transition-opacity duration-1000 ${theme === 'dark' ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="absolute inset-0 bg-gradient-to-b from-black to-background" />
+            <div className="absolute inset-0 bg-black" />
             {stars.map((star, i) => <Star key={i} style={star.style} colorClass={star.colorClass} />)}
-            <div className="absolute top-0 left-0 w-48 h-1.5 bg-gradient-to-r from-transparent via-white to-transparent rounded-full opacity-80 comet" style={{animation: `comet 15s linear infinite`, animationDelay: '5s'}} />
-            <div className="absolute top-0 left-0 w-32 h-1 bg-gradient-to-r from-transparent via-white to-transparent rounded-full opacity-60 comet" style={{animation: `comet 20s linear infinite`, animationDelay: '12s'}} />
+            <div className="absolute top-0 left-0 w-48 h-1.5 bg-gradient-to-r from-transparent via-white to-transparent rounded-full opacity-80" style={{animation: `comet 15s linear infinite`, animationDelay: '5s'}} />
+            <div className="absolute top-0 left-0 w-32 h-1 bg-gradient-to-r from-transparent via-white to-transparent rounded-full opacity-60" style={{animation: `comet 20s linear infinite`, animationDelay: '12s'}} />
         </div>
 
         <div className={`absolute inset-0 transition-opacity duration-1000 ${theme === 'light' ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-300 to-blue-500" />
-            <div className="absolute top-16 right-16 w-32 h-32 bg-yellow-300 rounded-full animate-pulse blur-md" />
-            <div className="absolute top-16 right-16 w-32 h-32 bg-yellow-400 rounded-full animate-pulse" />
+            <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-sky-400" />
             {[...Array(6)].map((_, i) => <Cloud key={i} id={i} />)}
             {[...Array(5)].map((_, i) => <Bird key={i} id={i} />)}
         </div>
