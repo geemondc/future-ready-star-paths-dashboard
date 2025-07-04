@@ -66,9 +66,7 @@ export function StarPathsGame() {
   }, [position]);
 
   const handleSquareClick = (square: BoardSquareData) => {
-    if (!visited.includes(square.square)) {
-      setVisited([...visited, square.square]);
-    }
+    movePlayer(square.square);
     setSelectedSquare(square);
     setShowSidebar(true);
   };
@@ -153,14 +151,18 @@ export function StarPathsGame() {
     const boardRect = boardRef.current.getBoundingClientRect();
     const squareRect = squareRef.getBoundingClientRect();
     
+    if (squareRect.width === 0) return null;
+
     const top = squareRect.top - boardRect.top + squareRect.height / 4;
     const left = squareRect.left - boardRect.left + squareRect.width / 4;
+    const width = squareRect.width / 2;
+    const height = squareRect.height / 2;
 
     return (
         <motion.div
-            className="absolute z-20 w-1/2 h-1/2"
+            className="absolute z-20"
             initial={false}
-            animate={{ top, left }}
+            animate={{ top, left, width, height }}
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
         >
             <Rocket className="w-full h-full text-solar-gold drop-shadow-lg -rotate-45" />
