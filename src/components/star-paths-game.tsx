@@ -132,9 +132,6 @@ export function StarPathsGame() {
     const layout = [];
     for (let i = 0; i < GRID_ROWS; i++) {
         const rowSquares = boardSquares.slice(i * GRID_COLUMNS, (i + 1) * GRID_COLUMNS);
-        if (i % 2 === 1) {
-            rowSquares.reverse();
-        }
         layout.push(rowSquares);
     }
     return layout;
@@ -311,7 +308,7 @@ export function StarPathsGame() {
         </footer>
       </div>
       <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
-        <SheetContent className="w-1/2 sm:max-w-xs bg-background/50 backdrop-blur-lg border-primary/20 text-foreground">
+        <SheetContent className="w-full sm:max-w-xs bg-background/50 backdrop-blur-lg border-primary/20 text-foreground">
             {selectedSquare && (
                 <>
                 <SheetHeader>

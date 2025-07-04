@@ -16,10 +16,10 @@ const Star = () => {
 const Cloud = ({ id }: { id: number }) => {
     const style = {
         top: `${Math.random() * 80}%`,
-        animation: `float ${Math.random() * 20 + 15}s linear infinite`,
-        animationDelay: `${id * 2}s`,
+        animation: `float ${Math.random() * 20 + 25}s linear infinite`,
+        animationDelay: `${id * 4}s`,
         transform: `scale(${Math.random() * 0.5 + 0.5})`,
-        left: `${-300 + (id * 25)}px`,
+        left: '-300px',
     };
 
     return (
@@ -27,6 +27,31 @@ const Cloud = ({ id }: { id: number }) => {
             <div className="absolute w-24 h-24 bg-white/80 rounded-full -top-8 left-8" />
             <div className="absolute w-32 h-32 bg-white/80 rounded-full -top-12 right-4" />
         </div>
+    );
+};
+
+const Bird = ({ id }: { id: number }) => {
+    const style = {
+        top: `${Math.random() * 60 + 10}%`,
+        left: '-50px',
+        animation: `float ${Math.random() * 10 + 10}s linear infinite`,
+        animationDelay: `${id * 2}s`,
+        transform: `scale(${Math.random() * 0.2 + 0.3})`,
+    };
+    return (
+        <svg
+            viewBox="0 0 50 30"
+            className="absolute text-slate-800"
+            style={style}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M2 15c5,6,12,8,23,0" />
+            <path d="M25 15c5,6,12,8,23,0" />
+        </svg>
     );
 };
 
@@ -52,6 +77,7 @@ export function AnimatedBackground() {
             <div className="absolute top-16 right-16 w-32 h-32 bg-yellow-300 rounded-full animate-pulse blur-md" />
             <div className="absolute top-16 right-16 w-32 h-32 bg-yellow-400 rounded-full animate-pulse" />
             {[...Array(6)].map((_, i) => <Cloud key={i} id={i} />)}
+            {[...Array(5)].map((_, i) => <Bird key={i} id={i} />)}
         </div>
     </div>
   );
