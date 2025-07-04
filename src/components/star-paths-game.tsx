@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Rocket, Rewind, Map, Star, Award, Sparkles, X, Menu } from 'lucide-react';
+import { Rocket, Rewind, Map } from 'lucide-react';
 import { boardSquares, boosters, blackHoles, BOARD_SIZE, GRID_COLUMNS, GRID_ROWS } from '@/lib/game-data';
 import type { BoardSquareData } from '@/lib/game-data';
 import { BlackHoleIcon, DiceIcon } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import Confetti from 'react-confetti';
@@ -22,8 +22,7 @@ export function StarPathsGame() {
   const [lastRoll, setLastRoll] = useState<number | null>(null);
   const [isRolling, setIsRolling] = useState(false);
   const [gameWon, setGameWon] = useState(false);
-  const [selectedSquare, setSelectedSquare] = useState<BoardSquareData | null>(null);
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [activePopoverId, setActivePopoverId] = useState<number | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
   const boardRef = useRef<HTMLDivElement>(null);
@@ -67,8 +66,7 @@ export function StarPathsGame() {
 
   const handleSquareClick = (square: BoardSquareData) => {
     movePlayer(square.square);
-    setSelectedSquare(square);
-    setShowSidebar(true);
+    setActivePopoverId(square.id);
   };
   
   const movePlayer = (targetPosition: number) => {
@@ -96,21 +94,23 @@ export function StarPathsGame() {
         setTimeout(() => {
           const boosterTarget = boosters[targetPos];
           const blackHoleTarget = blackHoles[targetPos];
+          let finalPosition = targetPos;
           
           if (boosterTarget) {
             toast({ title: "🚀 Booster!", description: `Warping from ${targetPos} to ${boosterTarget}!` });
-            movePlayer(boosterTarget);
+            finalPosition = boosterTarget;
           } else if (blackHoleTarget) {
             toast({ title: "⚫ Black Hole!", description: `Falling back from ${targetPos} to ${blackHoleTarget}!`, variant: "destructive" });
-            movePlayer(blackHoleTarget);
+            finalPosition = blackHoleTarget;
+          }
+          
+          const finalSquareData = boardSquares.find(s => s.square === finalPosition);
+          if (finalSquareData) {
+            handleSquareClick(finalSquareData);
           } else {
-            movePlayer(targetPos);
+            movePlayer(finalPosition);
           }
           setIsRolling(false);
-          const currentSquareData = boardSquares.find(s => s.square === (boosterTarget || blackHoleTarget || targetPos));
-          if(currentSquareData) {
-            handleSquareClick(currentSquareData);
-          }
         }, 300);
       }
     }, 200);
@@ -121,6 +121,7 @@ export function StarPathsGame() {
     setVisited([]);
     setLastRoll(null);
     setGameWon(false);
+    setActivePopoverId(null);
     localStorage.removeItem('starpaths_position');
     localStorage.removeItem('starpaths_visited');
     toast({ title: "Game Reset", description: "Your cosmic journey begins anew!" });
@@ -241,8 +242,8 @@ export function StarPathsGame() {
 
                     return (
                         <div key={square.id} ref={el => squareRefs.current[square.square] = el}>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
+                            <Popover open={activePopoverId === square.id} onOpenChange={(isOpen) => setActivePopoverId(isOpen ? square.id : null)}>
+                                <PopoverTrigger asChild>
                                     <motion.button
                                         onClick={() => handleSquareClick(square)}
                                         className={cn(
@@ -265,14 +266,26 @@ export function StarPathsGame() {
                                         </div>
                                         <p className="text-[8px] md:text-xs font-bold text-foreground/80 leading-tight line-clamp-2">{square.name}</p>
                                     </motion.button>
-                                </TooltipTrigger>
-                                <TooltipContent className="text-center">
-                                    <p className="font-bold">{square.name}</p>
-                                    <p>{square.description}</p>
-                                    {isBooster && <p className="text-green-400">Booster to {boosters[square.square]}!</p>}
-                                    {isBlackHole && <p className="text-red-400">Black Hole to {blackHoles[square.square]}!</p>}
-                                </TooltipContent>
-                            </Tooltip>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-80 bg-background/80 backdrop-blur-md border-primary/20 text-foreground">
+                                    <div className="grid gap-4">
+                                        <div className="space-y-2">
+                                            <h4 className="font-headline font-bold leading-none text-glow">{square.name}</h4>
+                                            <p className="text-sm text-primary/80">{square.description}</p>
+                                            {isBooster && <p className="text-sm text-green-400 font-bold">🚀 Booster to {boosters[square.square]}!</p>}
+                                            {isBlackHole && <p className="text-sm text-red-400 font-bold">⚫ Black Hole to {blackHoles[square.square]}!</p>}
+                                        </div>
+                                        <div className="py-4 text-center">
+                                            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                                                <a href={square.url} target="_blank" rel="noopener noreferrer">
+                                                    Visit Sector <Rocket className="w-4 h-4 ml-2" />
+                                                </a>
+                                            </Button>
+                                            <p className="text-xs text-muted-foreground mt-4">This will open in a new tab.</p>
+                                        </div>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                     );
                 })}
@@ -307,26 +320,6 @@ export function StarPathsGame() {
             </div>
         </footer>
       </div>
-      <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
-        <SheetContent className="w-full sm:max-w-xs bg-background/50 backdrop-blur-lg border-primary/20 text-foreground">
-            {selectedSquare && (
-                <>
-                <SheetHeader>
-                    <SheetTitle className="text-3xl font-headline font-black text-glow">{selectedSquare.name}</SheetTitle>
-                    <SheetDescription className="text-primary/80 pt-2">{selectedSquare.description}</SheetDescription>
-                </SheetHeader>
-                <div className="py-8 text-center">
-                    <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                        <a href={selectedSquare.url} target="_blank" rel="noopener noreferrer">
-                            Visit Sector <Rocket className="w-4 h-4 ml-2" />
-                        </a>
-                    </Button>
-                    <p className="text-xs text-muted-foreground mt-4">This will open in a new tab.</p>
-                </div>
-                </>
-            )}
-        </SheetContent>
-      </Sheet>
     </TooltipProvider>
   );
 }
