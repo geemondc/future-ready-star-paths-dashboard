@@ -70,10 +70,13 @@ export function StarPathsGame() {
   
   const movePlayer = (targetPosition: number) => {
     setPosition(targetPosition);
-    if (!visited.includes(targetPosition)) {
-      setVisited([...visited, targetPosition]);
-    }
   }
+
+  const markAsVisited = (squareNumber: number) => {
+    if (!visited.includes(squareNumber)) {
+      setVisited(prevVisited => [...prevVisited, squareNumber]);
+    }
+  };
 
   const handleRoll = () => {
     if (isRolling) return;
@@ -210,7 +213,7 @@ export function StarPathsGame() {
                                         if (finalSquareData) handleSquareClick(finalSquareData)
                                       }}
                                       className={cn("w-full aspect-square rounded-md flex items-center justify-center text-xs font-bold", 
-                                        visited.includes(sq.square) ? "bg-starlight-mint/50" : "bg-rocket-flame-coral/50",
+                                        visited.includes(sq.square) ? "bg-green-500/50" : "bg-red-600/50",
                                         position === sq.square && "ring-2 ring-solar-gold ring-offset-2 ring-offset-background"
                                       )}>
                                       {sq.square}
@@ -251,7 +254,7 @@ export function StarPathsGame() {
                                         onClick={() => handleSquareClick(square)}
                                         className={cn(
                                             "relative w-full aspect-square rounded-lg p-2 flex flex-col justify-between items-center text-left transition-all duration-300 transform hover:scale-105 hover:z-10 focus:z-10",
-                                            isVisited ? 'bg-starlight-mint/20 border-starlight-mint/50' : 'bg-rocket-flame-coral/20 border-rocket-flame-coral/50',
+                                            isVisited ? 'bg-green-500/20 border-green-500/50' : 'bg-red-600/20 border-red-600/50',
                                             isCurrent && 'ring-4 ring-solar-gold shadow-2xl scale-105 z-10',
                                             isBooster && 'border-green-400',
                                             isBlackHole && 'border-red-400',
@@ -262,7 +265,7 @@ export function StarPathsGame() {
                                         <div className="w-full flex justify-between items-center">
                                             <span className={cn(
                                                 "text-sm md:text-lg font-black",
-                                                isVisited ? 'text-starlight-mint' : 'text-rocket-flame-coral'
+                                                isVisited ? 'text-green-400' : 'text-red-500'
                                             )}>{square.square}</span>
                                             {isBooster && <Rocket className="w-4 h-4 text-green-400" />}
                                             {isBlackHole && <BlackHoleIcon className="w-4 h-4 text-red-400" />}
@@ -280,7 +283,7 @@ export function StarPathsGame() {
                                         </div>
                                         <div className="py-2 text-center">
                                             <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                                                <a href={square.url} target="_blank" rel="noopener noreferrer">
+                                                <a href={square.url} target="_blank" rel="noopener noreferrer" onClick={() => markAsVisited(square.square)}>
                                                     Visit Sector <Rocket className="w-4 h-4 ml-2" />
                                                 </a>
                                             </Button>
