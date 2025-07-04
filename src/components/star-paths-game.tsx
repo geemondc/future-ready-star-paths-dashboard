@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Rocket, Rewind, Map } from 'lucide-react';
-import { boardSquares, boosters, blackHoles, BOARD_SIZE, GRID_COLUMNS, GRID_ROWS } from '@/lib/game-data';
+import { boardSquares, boosters, blackHoles, BOARD_SIZE } from '@/lib/game-data';
 import type { BoardSquareData } from '@/lib/game-data';
 import { BlackHoleIcon, DiceIcon } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -29,7 +29,6 @@ export function StarPathsGame() {
   const squareRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const { toast } = useToast();
-  const { theme } = useTheme();
 
   useEffect(() => {
     const savedPosition = localStorage.getItem('starpaths_position');
@@ -82,37 +81,47 @@ export function StarPathsGame() {
     const roll = Math.floor(Math.random() * 6) + 1;
     setLastRoll(roll);
 
-    let currentPos = position;
-    const targetPos = Math.min(position + roll, BOARD_SIZE);
+    const path: number[] = [];
+    let currentTempPos = position;
+    for (let i = 0; i < roll; i++) {
+        currentTempPos++;
+        if (currentTempPos > BOARD_SIZE) {
+            currentTempPos = 1;
+        }
+        path.push(currentTempPos);
+    }
+    
+    const targetPos = path.length > 0 ? path[path.length - 1] : position;
 
+    let step = 0;
     const moveInterval = setInterval(() => {
-      currentPos++;
-      if (currentPos <= targetPos) {
-        setPosition(currentPos);
-      } else {
-        clearInterval(moveInterval);
-        setTimeout(() => {
-          const boosterTarget = boosters[targetPos];
-          const blackHoleTarget = blackHoles[targetPos];
-          let finalPosition = targetPos;
-          
-          if (boosterTarget) {
-            toast({ title: "🚀 Booster!", description: `Warping from ${targetPos} to ${boosterTarget}!` });
-            finalPosition = boosterTarget;
-          } else if (blackHoleTarget) {
-            toast({ title: "⚫ Black Hole!", description: `Falling back from ${targetPos} to ${blackHoleTarget}!`, variant: "destructive" });
-            finalPosition = blackHoleTarget;
-          }
-          
-          const finalSquareData = boardSquares.find(s => s.square === finalPosition);
-          if (finalSquareData) {
-            handleSquareClick(finalSquareData);
-          } else {
-            movePlayer(finalPosition);
-          }
-          setIsRolling(false);
-        }, 300);
-      }
+        if (step < path.length) {
+            setPosition(path[step]);
+            step++;
+        } else {
+            clearInterval(moveInterval);
+            setTimeout(() => {
+                const boosterTarget = boosters[targetPos];
+                const blackHoleTarget = blackHoles[targetPos];
+                let finalPosition = targetPos;
+
+                if (boosterTarget) {
+                    toast({ title: "🚀 Booster!", description: `Warping from ${targetPos} to ${boosterTarget}!` });
+                    finalPosition = boosterTarget;
+                } else if (blackHoleTarget) {
+                    toast({ title: "⚫ Black Hole!", description: `Falling back from ${targetPos} to ${blackHoleTarget}!`, variant: "destructive" });
+                    finalPosition = blackHoleTarget;
+                }
+
+                const finalSquareData = boardSquares.find(s => s.square === finalPosition);
+                if (finalSquareData) {
+                    handleSquareClick(finalSquareData);
+                } else {
+                    movePlayer(finalPosition);
+                }
+                setIsRolling(false);
+            }, 300);
+        }
     }, 200);
   };
 
@@ -128,15 +137,6 @@ export function StarPathsGame() {
   };
   
   const progress = useMemo(() => (visited.length / BOARD_SIZE) * 100, [visited]);
-
-  const boardLayout = useMemo(() => {
-    const layout = [];
-    for (let i = 0; i < GRID_ROWS; i++) {
-        const rowSquares = boardSquares.slice(i * GRID_COLUMNS, (i + 1) * GRID_COLUMNS);
-        layout.push(rowSquares);
-    }
-    return layout;
-  }, []);
 
   if (!hydrated) {
     return <div className="flex items-center justify-center min-h-screen"><Rocket className="w-16 h-16 animate-pulse" /></div>;
@@ -176,8 +176,8 @@ export function StarPathsGame() {
       <div className="w-full max-w-7xl mx-auto flex flex-col items-center">
         <header className="w-full flex flex-col md:flex-row items-center justify-between p-4 mb-4 gap-4 text-center md:text-left">
           <div className="flex-1">
-            <h1 className="text-3xl md:text-5xl font-headline font-black text-glow">Mission Control</h1>
-            <p className="text-md md:text-xl text-primary/80">Roll the die, dodge space slides, and learn along your journey</p>
+            <h1 className="text-3xl md:text-5xl font-headline font-black text-glow">Star Paths</h1>
+            <p className="text-md md:text-xl text-primary/80">Explore the Future Ready universe.</p>
           </div>
           <div className="flex items-center gap-2 md:gap-4 p-2 rounded-full bg-background/50 backdrop-blur-sm border border-primary/20">
              <ThemeToggle />
@@ -205,7 +205,10 @@ export function StarPathsGame() {
                             <Tooltip key={sq.id}>
                                 <TooltipTrigger asChild>
                                     <button
-                                      onClick={() => handleSquareClick(sq)}
+                                      onClick={() => {
+                                        const finalSquareData = boardSquares.find(s => s.square === sq.square);
+                                        if (finalSquareData) handleSquareClick(finalSquareData)
+                                      }}
                                       className={cn("w-full aspect-square rounded-md flex items-center justify-center text-xs font-bold", 
                                         visited.includes(sq.square) ? "bg-starlight-mint/50" : "bg-rocket-flame-coral/50",
                                         position === sq.square && "ring-2 ring-solar-gold ring-offset-2 ring-offset-background"
@@ -233,8 +236,8 @@ export function StarPathsGame() {
             <AnimatePresence>
                 <PlayerAvatar />
             </AnimatePresence>
-            <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
-                {boardLayout.flat().map((square) => {
+            <div className="grid grid-cols-10 gap-2">
+                {boardSquares.map((square) => {
                     const isVisited = visited.includes(square.square);
                     const isCurrent = position === square.square;
                     const isBooster = !!boosters[square.square];
@@ -267,7 +270,7 @@ export function StarPathsGame() {
                                         <p className="text-[8px] md:text-xs font-bold text-foreground/80 leading-tight line-clamp-2">{square.name}</p>
                                     </motion.button>
                                 </PopoverTrigger>
-                                <PopoverContent className="w-80 bg-background/80 backdrop-blur-md border-primary/20 text-foreground">
+                                <PopoverContent className="w-64 bg-background/80 backdrop-blur-md border-primary/20 text-foreground">
                                     <div className="grid gap-4">
                                         <div className="space-y-2">
                                             <h4 className="font-headline font-bold leading-none text-glow">{square.name}</h4>
@@ -275,13 +278,12 @@ export function StarPathsGame() {
                                             {isBooster && <p className="text-sm text-green-400 font-bold">🚀 Booster to {boosters[square.square]}!</p>}
                                             {isBlackHole && <p className="text-sm text-red-400 font-bold">⚫ Black Hole to {blackHoles[square.square]}!</p>}
                                         </div>
-                                        <div className="py-4 text-center">
-                                            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                                        <div className="py-2 text-center">
+                                            <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
                                                 <a href={square.url} target="_blank" rel="noopener noreferrer">
                                                     Visit Sector <Rocket className="w-4 h-4 ml-2" />
                                                 </a>
                                             </Button>
-                                            <p className="text-xs text-muted-foreground mt-4">This will open in a new tab.</p>
                                         </div>
                                     </div>
                                 </PopoverContent>

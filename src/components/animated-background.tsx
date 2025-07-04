@@ -2,15 +2,10 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
-const Star = () => {
-    const style = {
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        animation: `twinkle ${Math.random() * 5 + 2}s linear infinite`,
-        animationDelay: `${Math.random() * 3}s`,
-    };
-    return <div className="absolute w-1 h-1 bg-starlight-mint rounded-full" style={style} />;
+const Star = ({ style, colorClass }: { style: React.CSSProperties, colorClass: string }) => {
+    return <div className={cn("absolute rounded-full", colorClass)} style={style} />;
 };
 
 const Cloud = ({ id }: { id: number }) => {
@@ -58,16 +53,32 @@ const Bird = ({ id }: { id: number }) => {
 export function AnimatedBackground() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
+  const [stars, setStars] = useState<{ style: React.CSSProperties, colorClass: string }[]>([]);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    const colors = ['bg-starlight-mint', 'bg-solar-gold', 'bg-comet-trail-lavender', 'bg-white'];
+    const starData = Array.from({ length: 150 }).map(() => ({
+      style: {
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animation: `twinkle ${Math.random() * 5 + 3}s linear infinite`,
+        animationDelay: `${Math.random() * 4}s`,
+        width: `${Math.random() * 2 + 1}px`,
+        height: `${Math.random() * 2 + 1}px`,
+      },
+      colorClass: colors[Math.floor(Math.random() * colors.length)],
+    }));
+    setStars(starData);
+  }, []);
 
   if (!mounted) return null;
 
   return (
     <div className="fixed inset-0 w-full h-full z-0 overflow-hidden">
         <div className={`absolute inset-0 transition-opacity duration-1000 ${theme === 'dark' ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="absolute inset-0 bg-gradient-to-b from-background to-indigo-900/50" />
-            {[...Array(100)].map((_, i) => <Star key={i} />)}
+            <div className="absolute inset-0 bg-gradient-to-b from-black to-background" />
+            {stars.map((star, i) => <Star key={i} style={star.style} colorClass={star.colorClass} />)}
             <div className="absolute top-0 left-0 w-48 h-1.5 bg-gradient-to-r from-transparent via-white to-transparent rounded-full opacity-80 comet" style={{animation: `comet 15s linear infinite`, animationDelay: '5s'}} />
             <div className="absolute top-0 left-0 w-32 h-1 bg-gradient-to-r from-transparent via-white to-transparent rounded-full opacity-60 comet" style={{animation: `comet 20s linear infinite`, animationDelay: '12s'}} />
         </div>
