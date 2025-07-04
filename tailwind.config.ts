@@ -1,5 +1,4 @@
 import type {Config} from 'tailwindcss';
-const plugin = require('tailwindcss/plugin')
 
 export default {
   darkMode: ['class'],
@@ -126,19 +125,9 @@ export default {
         'comet': 'comet 15s infinite linear',
         'pulse-black-hole': 'pulse-black-hole 1s infinite',
       },
-      textShadow: {
-        glow: '0 0 8px hsl(var(--primary) / 0.8), 0 0 20px hsl(var(--accent) / 0.6)',
-      },
     },
   },
   plugins: [
     require('tailwindcss-animate'),
-    plugin(function({ addComponents, theme }: {addComponents: Function, theme: Function}) {
-      addComponents({
-        '.text-glow': {
-          textShadow: `0 0 5px ${theme('colors.white')}, 0 0 10px ${theme('colors.primary.DEFAULT')}, 0 0 20px ${theme('colors.primary.DEFAULT')}`,
-        },
-      })
-    })
   ],
 } satisfies Config;
