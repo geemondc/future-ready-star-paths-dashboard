@@ -154,3 +154,15 @@
     opacity: 0;
   }
 }
+
+@keyframes pulse-black-hole {
+  0%,
+  100% {
+    color: black;
+    transform: scale(1);
+  }
+  50% {
+    color: #FFCF56;
+    transform: scale(1.2);
+  }
+}

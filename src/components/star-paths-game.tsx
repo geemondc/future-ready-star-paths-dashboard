@@ -179,7 +179,7 @@ export function StarPathsGame() {
 
   return (
     <TooltipProvider>
-      {gameWon && <Confetti width={window.innerWidth} height={window.innerHeight} colors={[
+      {gameWon && <Confetti width={typeof window !== 'undefined' ? window.innerWidth : 0} height={typeof window !== 'undefined' ? window.innerHeight : 0} colors={[
         '#9BF6FF', '#FF8FA3', '#CAB8FF', '#FFCF56'
       ]} />}
       <div className="w-full max-w-7xl mx-auto flex flex-col items-center">
@@ -283,7 +283,7 @@ export function StarPathsGame() {
                                             <h4 className="font-headline font-bold leading-none text-glow">{square.name}</h4>
                                             <p className="text-sm text-primary/80">{square.description}</p>
                                             {isBooster && <p className="text-sm text-green-400 font-bold">🚀 Booster to {boosters[square.square]}!</p>}
-                                            {isBlackHole && <p className="text-sm font-bold text-black dark:text-gray-300">⚫ Black Hole to {blackHoles[square.square]}!</p>}
+                                            {isBlackHole && <p className="text-sm font-bold text-yellow-400">⚫ Black Hole to {blackHoles[square.square]}!</p>}
                                         </div>
                                         <div className="py-2 text-center">
                                             <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90">
