@@ -68,3 +68,5 @@ export const blackHoles: Record<number, number> = { "11": 3, "18": 6, "27": 15, 
 export const BOARD_SIZE = boardSquares.length;
 export const GRID_COLUMNS = 10;
 export const GRID_ROWS = Math.ceil(BOARD_SIZE / GRID_COLUMNS);
+
+    

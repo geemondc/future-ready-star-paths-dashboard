@@ -15,6 +15,8 @@ import { useToast } from "@/hooks/use-toast";
 import Confetti from 'react-confetti';
 import { ThemeToggle } from './theme-toggle';
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export function StarPathsGame() {
   const [position, setPosition] = useState(1);
   const [visited, setVisited] = useState<number[]>([]);
@@ -77,61 +79,43 @@ export function StarPathsGame() {
     }
   };
 
-  const handleRoll = () => {
+  const handleRoll = async () => {
     if (isRolling) return;
     setIsRolling(true);
     const roll = Math.floor(Math.random() * 6) + 1;
     setLastRoll(roll);
 
-    let newPosition = position + roll;
-    if (newPosition > BOARD_SIZE) {
-        newPosition = (newPosition - 1) % BOARD_SIZE + 1;
-    }
-
-    const path: number[] = [];
     let currentTempPos = position;
-    
-    // Create a path for animation
     for (let i = 0; i < roll; i++) {
         currentTempPos++;
         if (currentTempPos > BOARD_SIZE) {
             currentTempPos = 1;
         }
-        path.push(currentTempPos);
+        setPosition(currentTempPos);
+        await sleep(200);
     }
     
-    const targetPos = path.length > 0 ? path[path.length - 1] : position;
+    await sleep(300);
 
-    let step = 0;
-    const moveInterval = setInterval(() => {
-        if (step < path.length) {
-            setPosition(path[step]);
-            step++;
-        } else {
-            clearInterval(moveInterval);
-            setTimeout(() => {
-                const boosterTarget = boosters[targetPos];
-                const blackHoleTarget = blackHoles[targetPos];
-                let finalPosition = targetPos;
+    const boosterTarget = boosters[currentTempPos];
+    const blackHoleTarget = blackHoles[currentTempPos];
+    let finalPosition = currentTempPos;
 
-                if (boosterTarget) {
-                    toast({ title: "🚀 Booster!", description: `Warping from ${targetPos} to ${boosterTarget}!` });
-                    finalPosition = boosterTarget;
-                } else if (blackHoleTarget) {
-                    toast({ title: "⚫ Black Hole!", description: `Falling back from ${targetPos} to ${blackHoleTarget}!`, variant: "destructive" });
-                    finalPosition = blackHoleTarget;
-                }
+    if (boosterTarget) {
+        toast({ title: "🚀 Booster!", description: `Warping from ${currentTempPos} to ${boosterTarget}!` });
+        finalPosition = boosterTarget;
+    } else if (blackHoleTarget) {
+        toast({ title: "⚫ Black Hole!", description: `Falling back from ${currentTempPos} to ${blackHoleTarget}!`, variant: "destructive" });
+        finalPosition = blackHoleTarget;
+    }
 
-                const finalSquareData = boardSquares.find(s => s.square === finalPosition);
-                if (finalSquareData) {
-                    handleSquareClick(finalSquareData);
-                } else {
-                    movePlayer(finalPosition);
-                }
-                setIsRolling(false);
-            }, 300);
-        }
-    }, 200);
+    const finalSquareData = boardSquares.find(s => s.square === finalPosition);
+    if (finalSquareData) {
+        handleSquareClick(finalSquareData);
+    } else {
+        movePlayer(finalPosition);
+    }
+    setIsRolling(false);
   };
 
   const resetGame = () => {
@@ -243,7 +227,7 @@ export function StarPathsGame() {
 
         <div ref={boardRef} className="w-full relative p-2 md:p-4 bg-background/30 backdrop-blur-sm rounded-2xl border-2 border-primary/20 shadow-2xl">
             <AnimatePresence>
-                <PlayerAvatar />
+                {hydrated && <PlayerAvatar />}
             </AnimatePresence>
             <div className="grid grid-cols-10 gap-2">
                 {boardSquares.map((square) => {
@@ -332,3 +316,5 @@ export function StarPathsGame() {
     </TooltipProvider>
   );
 }
+
+    
