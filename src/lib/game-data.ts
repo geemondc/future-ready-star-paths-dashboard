@@ -24,7 +24,7 @@ export const boardSquares: BoardSquareData[] = [
   { id: 15, square: 15, name: "Planet of Index ETFs SP500", description: "Your Journey to Smart Investing", url: "https://sunny-paletas-0e0501.netlify.app/" },
   { id: 16, square: 16, name: "Quick Health Check Hub", description: "Your Space Adventure to Wellness", url: "https://lucky-bombolone-22c674.netlify.app/" },
   { id: 17, square: 17, name: "Everyday Life Hacks Library", description: "Your Space Adventure to Smarter Living", url: "https://tiny-rabanadas-46929d.netlify.app/" },
-  { id: 18, square: 18, name: "Space Diet Explorer", description: "Discover Your Diet Planet!", url: "https://studio--space-diet-explorer.us-central1.hosted.app/" },
+  { id: 18, square: 18, name: "Space Diet Explorer", description: "Discover Your Diet Planet!", url: "https://space-diet-odyssey.lovable.app/" },
   { id: 19, square: 19, name: "HABIT GALAXY GATEWAY", description: "Build life-changing habits", url: "https://habit-galaxy-gateway.lovable.app/" },
   { id: 20, square: 20, name: "Retro Game Night Vault", description: "Hidden Game 1", url: "https://studio--retro-game-night-vault.us-central1.hosted.app/" },
   { id: 21, square: 21, name: "VIrtual Pinball Lounge", description: "Hidden Game 2", url: "https://studio--retrolounge.us-central1.hosted.app/" },
