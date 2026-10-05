@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
+
+@layer base {
+  :root {
+    --background: 240 33% 5%;
+    --foreground: 220 20% 90%;
+
+    --card: 240 25% 8%;
+    --card-foreground: 220 20% 90%;
+
+    --popover: 240 25% 10%;
+    --popover-foreground: 220 20% 90%;
+
+    --primary: 15 90% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 20% 15%;
+    --secondary-foreground: 220 20% 85%;
+
+    --muted: 240 15% 12%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 45 95% 55%;
+    --accent-foreground: 240 33% 5%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 240 15% 18%;
+    --input: 240 15% 18%;
+    --ring: 15 90% 55%;
+
+    --radius: 0.75rem;
+
+    --square-from: 0 85% 50%;
+    --square-to: 25 90% 55%;
+    --square-glow: 15 90% 55%;
+    --blackhole: 270 60% 40%;
+    --visited: 145 70% 45%;
+    --current-glow: 45 95% 55%;
+
+    --sidebar-background: 240 25% 8%;
+    --sidebar-foreground: 220 20% 90%;
+    --sidebar-primary: 15 90% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 20% 15%;
+    --sidebar-accent-foreground: 220 20% 85%;
+    --sidebar-border: 240 15% 18%;
+    --sidebar-ring: 15 90% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
+  }
+}
+
+@layer components {
+  .square-gradient {
+    background: linear-gradient(135deg, hsl(var(--square-from)), hsl(var(--square-to)));
+  }
+  .square-blackhole {
+    background: linear-gradient(135deg, hsl(var(--blackhole)), hsl(280 50% 25%));
+  }
+  .glow-current {
+    box-shadow: 0 0 20px 4px hsl(var(--current-glow) / 0.6), 0 0 40px 8px hsl(var(--current-glow) / 0.3);
+  }
+  .glow-hover {
+    box-shadow: 0 0 12px 2px hsl(var(--square-glow) / 0.4);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Orbitron', sans-serif;
+  }
+}
+
+/* Starfield */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+@keyframes drift {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100vh); }
+}
+
+/* Clouds */
+@keyframes cloud-drift {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(calc(100vw + 120%)); }
+}
+
+/* Day mode overrides */
+.day-mode {
+  --background: 205 75% 65%;
+  --foreground: 220 30% 15%;
+  --card: 210 40% 92%;
+  --card-foreground: 220 30% 15%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 30% 15%;
+  --primary: 15 90% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 30% 85%;
+  --secondary-foreground: 220 30% 25%;
+  --muted: 210 25% 88%;
+  --muted-foreground: 220 15% 40%;
+  --accent: 45 95% 55%;
+  --accent-foreground: 240 33% 5%;
+  --border: 210 20% 80%;
+  --input: 210 20% 80%;
+  --ring: 15 90% 55%;
+}

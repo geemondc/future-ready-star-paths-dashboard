@@ -1,0 +1,65 @@
+export interface Square {
+  id: number;
+  name: string;
+  description: string;
+  link: string;
+  isBlackHole: boolean;
+}
+
+const BLACK_HOLES = new Set([7, 14, 21, 28, 35, 42, 49]);
+
+export const squares: Square[] = [
+  { id: 1, name: "Intro Page", description: "Begin your cosmic journey through the Future Ready universe.", link: "https://cosmic-frangipane-932989.netlify.app/" },
+  { id: 2, name: "Welcome Page A", description: "Your first welcome station in the galaxy.", link: "https://studio--future-ready-launchpad.us-central1.hosted.app/" },
+  { id: 3, name: "Welcome Page B", description: "A second welcome portal awaits you.", link: "https://future-ready-voyage-web.lovable.app/" },
+  { id: 4, name: "Welcome Page C", description: "The third gateway to Future Ready.", link: "https://stellular-croissant-0076f7.netlify.app/" },
+  { id: 5, name: "Map Room", description: "Navigate the full star map of your journey.", link: "https://musical-creponne-794069.netlify.app/" },
+  { id: 6, name: "Nostalgia Planet", description: "Revisit the memories that shaped us.", link: "https://stirring-salamander-d1b886.netlify.app/" },
+  { id: 7, name: "Theater Planet", description: "A black hole of entertainment and stories.", link: "https://hilarious-mandazi-34d097.netlify.app/" },
+  { id: 8, name: "Assessment Dashboard", description: "Check your readiness across dimensions.", link: "https://cerulean-granita-77f398.netlify.app/" },
+  { id: 9, name: "The Seth Godin Starport", description: "Wisdom from the marketing galaxy.", link: "https://melodious-pothos-d2d528.netlify.app/" },
+  { id: 10, name: "Life Skills Starbase", description: "Essential skills for navigating life.", link: "https://verdant-kangaroo-43c477.netlify.app/" },
+  { id: 11, name: "Galactic Puzzle Portal", description: "Challenge your mind with cosmic puzzles.", link: "https://silver-speculoos-3629dd.netlify.app/" },
+  { id: 12, name: "Tech Support Starbase", description: "Get help with your tech systems.", link: "https://cheerful-concha-333847.netlify.app/" },
+  { id: 13, name: "The Oracle's Outpost", description: "Seek answers from the Oracle.", link: "https://studio--oracles-wisdom.us-central1.hosted.app/" },
+  { id: 14, name: "The RhythmVerse", description: "A black hole of beats and rhythm.", link: "https://studio--rhythmverse-6ywpb.us-central1.hosted.app/" },
+  { id: 15, name: "Planet of Index ETFs SP500", description: "Learn about index investing.", link: "https://sunny-paletas-0e0501.netlify.app/" },
+  { id: 16, name: "Quick Health Check Hub", description: "Fast health assessments at your fingertips.", link: "https://lucky-bombolone-22c674.netlify.app/" },
+  { id: 17, name: "Everyday Life Hacks Library", description: "Tips and tricks for daily life.", link: "https://tiny-rabanadas-46929d.netlify.app/" },
+  { id: 18, name: "Space Diet Explorer", description: "Nutrition for your cosmic journey.", link: "https://space-diet-odyssey.lovable.app/" },
+  { id: 19, name: "Habit Galaxy Gateway", description: "Build habits that last lightyears.", link: "https://habit-galaxy-gateway.lovable.app/" },
+  { id: 20, name: "Retro Game Night Vault", description: "Classic games from across the galaxy.", link: "https://studio--retro-game-night-vault.us-central1.hosted.app/" },
+  { id: 21, name: "Virtual Pinball Lounge", description: "A black hole of pinball fun.", link: "https://studio--retrolounge.us-central1.hosted.app/" },
+  { id: 22, name: "Ultimate Randomizer Fun Hub", description: "Random fun at the speed of light.", link: "https://future-ready-ultimate-randomizer-fun-hub.lovable.app/" },
+  { id: 23, name: "Future Ready Discovery Portal", description: "Discover new frontiers.", link: "https://future-ready-discovery-portal.lovable.app/" },
+  { id: 24, name: "Warp to Full Access", description: "Unlock the entire universe.", link: "https://future-ready-access.lovable.app/" },
+  { id: 25, name: "The Doctor Recommends", description: "Health advice from the stars.", link: "https://dr-gee-advice-hub.lovable.app/" },
+  { id: 26, name: "Own Your Day", description: "Mission briefing for daily success.", link: "https://future-ready-own-your-day-mission-briefing.lovable.app/" },
+  { id: 27, name: "Rideshare Project", description: "Community transport solutions.", link: "https://future-ready-publix-rideshare.lovable.app/" },
+  { id: 28, name: "Future Ready Swim", description: "A black hole of aquatic exploration.", link: "https://studio--swimsavvy.us-central1.hosted.app/" },
+  { id: 29, name: "Market Dashboard", description: "Track the galactic markets.", link: "https://future-ready-market-dashboard.lovable.app/" },
+  { id: 30, name: "Hand History Journal", description: "Record your strategic plays.", link: "https://poker-oracle-project.lovable.app/" },
+  { id: 31, name: "Guided Journal", description: "Reflect on your cosmic journey.", link: "https://drive.google.com/file/d/1fAChS03y7T5JyHN4WpgTLK2OIhbQxBxm/view" },
+  { id: 32, name: "Guided Journal Kids v1", description: "Journaling for young explorers.", link: "https://drive.google.com/file/d/1BNn9-UV9e5vizjsZ0ONQJr2v9JabWq36/view" },
+  { id: 33, name: "Guided Journal Kids v2", description: "More journaling adventures for kids.", link: "https://drive.google.com/file/d/1y0nq0uBBfaEy-KGQLqvyaHr4Rk70demM/view" },
+  { id: 34, name: "Guided Journal Kids v3", description: "The latest kids journal edition.", link: "https://drive.google.com/file/d/1SNlNOCBPanF4SUG3vPVPlZZun1wxSh1e/view" },
+  { id: 35, name: "Sharing Hub", description: "A black hole of shared resources.", link: "https://teach-then-link-sharing-hub.lovable.app/" },
+  { id: 36, name: "Future Ready Discoveries", description: "New findings from the frontier.", link: "https://future-ready-discoveries.lovable.app/" },
+  { id: 37, name: "Financial Literacy Games", description: "Learn money skills through play.", link: "https://money-fun-zone.lovable.app/" },
+  { id: 38, name: "Brain Training Hub", description: "Sharpen your cosmic mind.", link: "https://future-ready-brain-boost.lovable.app/" },
+  { id: 39, name: "Health", description: "Your health command center.", link: "https://future-ready-health.lovable.app/" },
+  { id: 40, name: "Movie Hub", description: "Cinematic journeys across space.", link: "https://future-ready-movie-hub.lovable.app/" },
+  { id: 41, name: "Sports Zone", description: "Galactic sports and fitness.", link: "https://future-ready-sports-zone.lovable.app/" },
+  { id: 42, name: "Gaming Zone", description: "A black hole of gaming adventures.", link: "https://future-ready-gaming-hub.lovable.app/" },
+  { id: 43, name: "Training Zone", description: "Level up your skills.", link: "https://future-ready-training-zone.lovable.app/" },
+  { id: 44, name: "Bookmarklets Toolkit", description: "Handy tools for your browser.", link: "https://studio--bookmarklets-toolkit.us-central1.hosted.app/" },
+  { id: 45, name: "Planet of Passive Investing", description: "Wealth building on autopilot.", link: "https://studio--planet-passive.us-central1.hosted.app/" },
+  { id: 46, name: "Learning to Draw Hub", description: "Artistic skills from the cosmos.", link: "https://future-ready-draw-hub.lovable.app/" },
+  { id: 47, name: "Learning Launchpad", description: "Your education launch sequence.", link: "https://heartfelt-syrniki-0c9498.netlify.app/" },
+  { id: 48, name: "Morning Kickstart Hub", description: "Start each day with energy.", link: "https://shimmering-klepon-ed47b0.netlify.app/" },
+  { id: 49, name: "Workout & Wellness Launchpad", description: "A black hole of fitness and wellness.", link: "https://cool-valkyrie-ed08ef.netlify.app/" },
+  { id: 50, name: "Evening Wind-Down Station", description: "Relax after a day of exploration.", link: "https://inquisitive-kitten-8722a8.netlify.app/" },
+  { id: 51, name: "Future Ready Pub Station", description: "Social hub for cosmic travelers.", link: "#" },
+  { id: 52, name: "Time Bank Station", description: "Manage your most precious resource.", link: "#" },
+  { id: 53, name: "FINISH - Gee-Verse Complete", description: "Congratulations! You've explored the entire Future Ready universe!", link: "https://gee-verse-voyagers.lovable.app/" },
+].map(s => ({ ...s, isBlackHole: BLACK_HOLES.has(s.id) }));

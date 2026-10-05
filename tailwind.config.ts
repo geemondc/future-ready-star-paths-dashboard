@@ -1,12 +1,9 @@
-import type {Config} from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 export default {
-  darkMode: ['class'],
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  darkMode: ["class"],
+  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  prefix: "",
   theme: {
     container: {
       center: true,
@@ -17,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Nunito', 'sans-serif'],
-        headline: ['"Nunito Sans"', 'sans-serif'],
+        display: ["Orbitron", "sans-serif"],
+        body: ["Inter", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -54,11 +51,19 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        'starlight-mint': '#9BF6FF',
-        'rocket-flame-coral': '#FF8FA3',
-        'comet-trail-lavender': '#CAB8FF',
-        'solar-gold': '#FFCF56',
-        'deep-space-navy': '#0D1B3D',
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
+        "square-glow": "hsl(var(--square-glow))",
+        visited: "hsl(var(--visited))",
+        "current-glow": "hsl(var(--current-glow))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -66,68 +71,30 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
-        'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
-        'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
-        'shine': {
-          '0%': { transform: 'translateX(-100%) rotate(20deg)' },
-          '100%': { transform: 'translateX(100%) rotate(20deg)' },
+        "fade-in": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        'twinkle': {
-          '0%, 100%': { opacity: '0.5', transform: 'scale(0.8)' },
-          '50%': { opacity: '1', transform: 'scale(1.2)' },
-        },
-        'float': {
-          '0%': { transform: 'translateX(-200px)' },
-          '100%': { transform: 'translateX(calc(100vw + 200px))' },
-        },
-        'pulse': {
-          '0%, 100%': { transform: 'scale(1)', filter: 'brightness(1)' },
-          '50%': { transform: 'scale(1.05)', filter: 'brightness(1.2)' },
-        },
-        'comet': {
-            '0%': { transform: 'translateX(150vw) translateY(-50vh) rotate(-45deg)', opacity: '0' },
-            '10%': { opacity: '1' },
-            '90%': { opacity: '1' },
-            '100%': { transform: 'translateX(-50vw) translateY(50vh) rotate(-45deg)', opacity: '0' },
-        },
-        'pulse-black-hole': {
-          '0%, 100%': {
-            color: 'black',
-            transform: 'scale(1)',
-          },
-          '50%': {
-            color: '#FFCF56',
-            transform: 'scale(1.2)',
-          },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px 4px hsl(45 95% 55% / 0.5)" },
+          "50%": { boxShadow: "0 0 30px 8px hsl(45 95% 55% / 0.8)" },
         },
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-        'shine': 'shine 5s infinite ease-in-out',
-        'twinkle': 'twinkle 4s infinite ease-in-out',
-        'float': 'float 40s infinite linear',
-        'pulse': 'pulse 5s infinite ease-in-out',
-        'comet': 'comet 15s infinite linear',
-        'pulse-black-hole': 'pulse-black-hole 1s infinite',
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.5s ease-out forwards",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
       },
     },
   },
-  plugins: [
-    require('tailwindcss-animate'),
-  ],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;

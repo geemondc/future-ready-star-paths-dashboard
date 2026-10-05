@@ -1,5 +1,3 @@
-# Firebase Studio
+# Welcome to your Lovable project
 
-This is a NextJS starter in Firebase Studio.
-
-To get started, take a look at src/app/page.tsx.
+TODO: Document your project here
